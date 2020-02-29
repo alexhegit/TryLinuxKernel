@@ -1,0 +1,25 @@
+The KMP profiler
+
+It used to export information about memory leaks related with
+memory (de)allocated by vmalloc() and vfree() 
+
+Compilation:
+	$make
+It will built out kmp.ko and kmp-test.ko
+
+Test Enviroment:
+	Linux Ubuntu 12.04 3.13.0-32-generic
+
+usage: 
+	$insmod kmp.ko
+	$echo <saddr> > /sys/kernel/qeexo_kmp/scan_start_addr
+	$echo <eaddr> > /sys/kernel/qeexo_kmp/scan_end_addr
+	$cat /sys/kernel/qeexo_kmp/memleaks
+
+	The kmp-test.ko is used for test the kmp.ko which will
+	allocat memorys by vmalloc.
+	$insmoe kmp-test.ko
+
+TODOs:
+	show the <instruction pointer>
+	*I am not sure what's means it is.

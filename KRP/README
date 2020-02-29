@@ -1,0 +1,43 @@
+Date:15th.Jun.2016
+
+The KRP profiler export the profiling information to user space
+I implement it with two different way.
+
+I. krp.c
+The first implement is a KO modules base on kretprobe.
+
+Compilation:
+	$make
+Usage: 
+	$insmod krp.ko func=<func1_name>,<func2_name>
+	$cat /sys/kernel/qeexo_krp/stats
+
+Test Enviroment:
+	Ubuntu 12.04 SMP x86_64
+	Linux 3.19.0-32-generic
+
+TODOs:
+Move sysfs file to /sys/class/qeexo/profiler/stas as requirement.
+*Failed to create the profiler sysfs under /sys/class. The trying
+codes are leaved by #SYSFS_CLASS.
+
+
+II. qeexo-krp.sh 
+The second is use the shell script base on the ftrace.
+Usage:
+	Start trace functions:
+	./qeexo-krp.sh start 'func1 [func2] [func3] ...'
+	Stop trace:
+	./qeexo-krp.sh stop
+	Show trace result:
+	./qeexo-krp.sh show
+e.g.
+	alexhe@AH200 ~/Qeexo/release-v1.0-06152016/KRP $ sudo ./qeexo-krp.sh start 'hrtimer_interrupt sys_getpid'
+	alexhe@AH200 ~/Qeexo/release-v1.0-06152016/KRP $ sudo ./qeexo-krp.sh stop
+	alexhe@AH200 ~/Qeexo/release-v1.0-06152016/KRP $ sudo ./qeexo-krp.sh show
+	<symbo name>:<avage time per call in ns>:<invocations>
+	======================================================
+	sys_getpid:268:2
+	hrtimer_interrupt:10633:583
+
+
